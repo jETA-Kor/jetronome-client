@@ -111,6 +111,13 @@ module.exports.init = init;
  * @return {Object} 오류 정보
  */
 const start = () => {
+    if (process.env.JETRONOME === 'ignore') {
+        return {
+            error: 'JETRONOME_IGNORED',
+            description: 'Node 환경변수 설정에 따라 신호를 보내지 않습니다.',
+        };
+    }
+
     if (stat.job && !stat.force) {
         return {
             error: 'ALREADY_STARTED',

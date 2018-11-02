@@ -1,6 +1,9 @@
-require('./jetronome-client').init({
+const jetronome = require('./jetronome-client');
+
+jetronome.init({
     name: 'Dummy App',
     description: 'This is a test application.',
     server: 'http://localhost',
-    autoStart: true,
 });
+
+console.log(jetronome.start());
