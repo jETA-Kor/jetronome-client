@@ -9,13 +9,13 @@ Jetronome Client is the simplest application status checker.
 - Creating periodic signal
 
 ## Install
-```
+```bash
 $ npm i --save jetronome-client
 ```
 
 ## Usage
 #### Starting at initialize
-```
+```javascript
 require('./jetronome-client').init({
     name: 'Dummy App', // Application Name (required)
     description: 'This is a test application.', // Description (required)
@@ -28,7 +28,7 @@ require('./jetronome-client').init({
 ```
 
 #### Starting after initialize
-```
+```javascript
 const jetronome = require('./jetronome-client');
 jetronome.init({
     name: 'Dummy App', // Application Name (required)
