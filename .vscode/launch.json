@@ -10,7 +10,7 @@
             "name": "Test",
             "program": "${workspaceFolder}\\test.js",
             "env": {
-                "JETRONOME": "ignore"
+                // "JETRONOME": "ignore"
             }
         }
     ]

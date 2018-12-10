@@ -1,4 +1,8 @@
 const request = require('request');
+const os = require('os-utils');
+const disk = require('diskusage');
+const defaultDiskPath = (os.platform() === 'win32') ? 'C:' : '/';
+const diskPath = process.env.JETRONOME_DISK || defaultDiskPath;
 
 // Server URL
 let server = 'http://localhost:7828';
@@ -54,8 +58,8 @@ const sender = () => {
                 name: stat.name,
                 ip: stat.ip,
                 description: stat.description,
-                testApi: stat.testApi,
-                interval: stat.interval,
+                cpu: stat.cpu,
+                memory: stat.memory,
             };
 
             return true;
@@ -66,6 +70,18 @@ const sender = () => {
                 name: stat.name,
             };
         }
+    });
+};
+
+const systemMon = () => {
+    os.cpuUsage((v) => {
+        const diskUsage = disk.checkSync(diskPath);
+
+        stat.data.cpu = (v * 100).toFixed(2);
+        stat.data.memory = ((1 - os.freememPercentage()) * 100).toFixed(2);
+        stat.data.disk = ((diskUsage.total - diskUsage.available) / diskUsage.total * 100).toFixed(2);
+
+        setTimeout(systemMon, 3000);
     });
 };
 
@@ -140,6 +156,7 @@ const start = () => {
 
     sender();
     stat.job = setInterval(sender, stat.interval);
+    systemMon();
 
     logger('Started.');
 

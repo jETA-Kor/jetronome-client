@@ -1,9 +1,11 @@
 {
   "name": "jetronome-client",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Simple application status checker.",
   "main": "jetronome-client.js",
   "dependencies": {
+    "diskusage": "^1.0.0",
+    "os-utils": "0.0.14",
     "request": "^2.88.0"
   },
   "devDependencies": {
