@@ -1,8 +1,10 @@
 const request = require('request');
 const os = require('os-utils');
 const disk = require('diskusage');
-const defaultDiskPath = (os.platform() === 'win32') ? 'C:' : '/';
-const diskPath = process.env.JETRONOME_DISK || defaultDiskPath;
+
+let advancedOptions = {
+    diskPath: (os.platform() === 'win32') ? 'C:' : '/',
+};
 
 // Server URL
 let server = 'http://localhost:7828';
@@ -75,7 +77,7 @@ const sender = () => {
 
 const systemMon = () => {
     os.cpuUsage((v) => {
-        const diskUsage = disk.checkSync(diskPath);
+        const diskUsage = disk.checkSync(advancedOptions.diskPath);
 
         stat.data.cpu = (v * 100).toFixed(2);
         stat.data.memory = ((1 - os.freememPercentage()) * 100).toFixed(2);
@@ -111,6 +113,8 @@ const init = (info) => {
     stat.description = info.description;
     stat.testApi = info.testApi;
     stat.interval = info.interval || 5000;
+
+    advancedOptions = Object.assign(advancedOptions, (info.advancedOptions || {}));
 
     logger('Initialized.');
 
